@@ -1,7 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { FormArray, FormControl, FormGroup, NonNullableFormBuilder, Validators } from '@angular/forms';
-import { hasAtLeastOneSkill } from 'src/utils/hasAtLeastOneSkill';
-import { uniqueFullNamesValidator } from 'src/utils/uniqueFullNamesValidator';
+import { Store } from '@ngrx/store';
+import { DataAdapter } from 'src/app/models/data-adapter.model';
+import { addTask } from 'src/app/store/actions/task.actions';
+import { hasAtLeastOneSkill } from 'src/app/utils/hasAtLeastOneSkill';
+import { uniqueFullNamesValidator } from 'src/app/utils/uniqueFullNamesValidator';
 
 @Component({
   selector: 'app-form',
@@ -23,7 +26,7 @@ export class FormComponent implements OnInit {
     peoples: this.fb.array([this.createPeopleFormGroup()], [uniqueFullNamesValidator()])
   });
 
-  constructor(private fb: NonNullableFormBuilder) { }
+  constructor(private fb: NonNullableFormBuilder, private store: Store) { }
 
   ngOnInit() { }
 
@@ -89,6 +92,15 @@ export class FormComponent implements OnInit {
   submitForm(): void {
     if (this.taskForm.valid) {
       console.log('submit', this.taskForm.value);
+      const values = this.taskForm.value as DataAdapter;
+      const task: DataAdapter = {
+        ...values,
+        userId: '',
+        id: '',
+        title: '',
+        completed: false
+      }
+      this.store.dispatch(addTask({task}))
     } else {
       this.markFormGroupTouched(this.taskForm);
     }

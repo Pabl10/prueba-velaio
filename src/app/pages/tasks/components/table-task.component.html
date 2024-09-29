@@ -36,13 +36,7 @@
         <nz-tag *ngIf="!data.completed" [nzColor]="'gold'">Pendiente</nz-tag>
       </td>
       <td>
-        <button nz-button nz-dropdown [nzDropdownMenu]="menu">Cambiar estado</button>
-        <nz-dropdown-menu #menu="nzDropdownMenu">
-          <ul nz-menu>
-            <li nz-menu-item>Pendiente</li>
-            <li nz-menu-item>Completado</li>
-          </ul>
-        </nz-dropdown-menu>
+        <button nz-button (click)="toggleStatusTask(data)">Cambiar estado</button>
       </td>
     </tr>
   </tbody>

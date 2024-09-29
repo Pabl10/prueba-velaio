@@ -1,4 +1,5 @@
 export const TaskMock = [{
+  "id": "fasf",
   "name": "Tarea para jira",
   "datePicker": "2024-09-03T17:27:31.244Z",
   "peoples": [

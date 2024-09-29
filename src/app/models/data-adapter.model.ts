@@ -5,8 +5,8 @@ interface People {
 }
 
 export interface DataAdapter {
-  userId: number;
-  id: number;
+  userId: number | string;
+  id: number | string;
   title: string;
   completed: boolean;
   name?: string;
