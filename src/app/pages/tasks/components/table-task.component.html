@@ -1,0 +1,49 @@
+<div class="table-operations">
+  <button nz-button (click)="resetFilters()">Todas</button>
+  <button nz-button (click)="sortByCompleted()">Completadas</button>
+  <button nz-button (click)="sortByPending()">Pendientes</button>
+</div>
+<nz-table #basicTable [nzData]="filteredTasks">
+  <thead>
+    <tr>
+      <th>Nombre</th>
+      <th>Titulo</th>
+      <th>Fecha limite</th>
+      <th>Personas Asociadas:</th>
+      <th>Estado</th>
+      <th>Acciones</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let data of basicTable.data">
+      <td>{{ data.name }}</td>
+      <td>{{ data.title || 'No hay titulo' }}</td>
+      <td>{{ data.datePicker }}</td>
+      <td>
+        <ng-container *ngFor="let people of data.peoples">
+          <p><b>{{people.name}} ({{people.age}})</b></p>
+          <p>
+            Habilidades:
+            <ng-container *ngFor="let skill of people.skills">
+              <nz-tag [nzColor]="'purple'">{{skill}}</nz-tag>
+            </ng-container>            
+          </p>
+          <hr>
+        </ng-container>
+      </td>
+      <td>
+        <nz-tag *ngIf="data.completed" [nzColor]="'green'">Completado</nz-tag>
+        <nz-tag *ngIf="!data.completed" [nzColor]="'gold'">Pendiente</nz-tag>
+      </td>
+      <td>
+        <button nz-button nz-dropdown [nzDropdownMenu]="menu">Cambiar estado</button>
+        <nz-dropdown-menu #menu="nzDropdownMenu">
+          <ul nz-menu>
+            <li nz-menu-item>Pendiente</li>
+            <li nz-menu-item>Completado</li>
+          </ul>
+        </nz-dropdown-menu>
+      </td>
+    </tr>
+  </tbody>
+</nz-table>

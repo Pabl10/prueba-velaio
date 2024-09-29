@@ -1,4 +1,3 @@
-<pre>Values: {{taskForm.getRawValue() | json}}</pre>
 <div class="content-form">
   <h1>Crear tarea</h1>
   <form nz-form [formGroup]="taskForm" class="login-form" (ngSubmit)="submitForm()">
@@ -76,3 +75,4 @@
     <button nz-button nzShape="round" [nzType]="'primary'" [disabled]="!taskForm.valid">Guardar tarea</button>
   </form>
 </div>
+<pre>Values: {{taskForm.getRawValue() | json}}</pre>
