@@ -6,9 +6,9 @@
 }
 
 .content-peoples {
-  display: grid;
+  display: flex;
+  flex-wrap: wrap;
   gap: 16px;
-  grid-template-columns: auto auto auto;
   margin: 12px 0;
 }
 
