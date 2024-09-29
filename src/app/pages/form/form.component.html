@@ -1,0 +1,78 @@
+<pre>Values: {{taskForm.getRawValue() | json}}</pre>
+<div class="content-form">
+  <h1>Crear tarea</h1>
+  <form nz-form [formGroup]="taskForm" class="login-form" (ngSubmit)="submitForm()">
+    <!-- Error validation name unique -->
+    <div class="content-error-names" *ngIf="taskForm.get('peoples')?.hasError('duplicateFullNames')">
+      <nz-alert nzType="error" nzMessage="El nombre completo de cada persona debe ser único."></nz-alert>
+    </div>
+
+    <!-- Name -->
+    <nz-form-item>
+      <nz-form-label nzRequired nzFor="name">Nombre de la tarea</nz-form-label>
+      <nz-form-control nzErrorTip="Es requerido">
+        <input nz-input formControlName="name" id="name" />
+      </nz-form-control>
+    </nz-form-item>
+
+    <!-- Fecha -->
+    <nz-form-item>
+      <nz-form-label nzRequired>Fecha límite</nz-form-label>
+      <nz-form-control nzErrorTip="Es requerido">
+        <nz-date-picker formControlName="datePicker"></nz-date-picker>
+      </nz-form-control>
+    </nz-form-item>
+
+    <button type="button" nzShape="round" nz-button [nzType]="'primary'" (click)="addPerson()">Agregar Persona</button>
+    <div class="content-peoples" formArrayName="peoples">
+      <div class="box-people" *ngFor="let person of peoples.controls; let i = index" [formGroupName]="i">
+        <h3>Persona: #{{i + 1}}</h3>
+        <nz-form-item>
+          <nz-form-label nzRequired nzFor="name">Nombre Completo</nz-form-label>
+          <nz-form-control
+            [nzErrorTip]="person.get('name')!.hasError('minlength') ? 'Debe tener al menos 5 caracteres' : 'Es requerido'">
+            <input nz-input formControlName="name" id="name" />
+          </nz-form-control>
+        </nz-form-item>
+
+        <nz-form-item>
+          <nz-form-label nzRequired nzFor="age">Edad</nz-form-label>
+          <nz-form-control [nzErrorTip]="person.get('age')!.hasError('min') ? 'Debe ser mayor a 18' : 'Es requerido'">
+            <input nz-input formControlName="age" id="age" />
+          </nz-form-control>
+        </nz-form-item>
+
+        <div class="content-info-skill">
+          <h3 *ngIf="getSkills(i).controls.length > 0">habilidades</h3>
+          <button type="button" nzShape="round" (click)="addSkill(i)" nz-button [nzType]="'primary'">Agregar
+            habilidad</button>
+        </div>
+
+        <!-- mostrar mensaje si no tiene habilidades -->
+        <div *ngIf="person.get('skills')?.hasError('hasAtLeastOneSkill')">
+          <nz-alert nzType="info" nzMessage="Debe tener al menos una habilidad"></nz-alert>
+        </div>
+
+        <div class="content-form-skills" formArrayName="skills">
+          <div *ngFor="let skill of getSkills(i).controls; let j = index">
+            <nz-form-item>
+              <nz-form-label nzRequired nzFor="name">Habilidad: {{ j + 1 }}</nz-form-label>
+              <nz-form-control [nzErrorTip]="'Es requerido'">
+                <input nz-input [formControlName]="j" />
+              </nz-form-control>
+              <button nz-button nzType="primary" [nzSize]="'small'" nzShape="circle" nz-tooltip
+                nzTooltipTitle="Eliminar habilidad" nzDanger (click)="removeSkill(i, j)"><!-- Button to remove skill -->
+                <span nz-icon nzType="delete" nzTheme="outline"></span>
+              </button>
+            </nz-form-item>
+          </div>
+
+        </div>
+        <!-- Button to remove the person -->
+        <button type="button" (click)="removePerson(i)" nz-button [nzType]="'primary'" nzDanger>Eliminar
+          Persona</button> <!-- Button to remove the person -->
+      </div>
+    </div>
+    <button nz-button nzShape="round" [nzType]="'primary'" [disabled]="!taskForm.valid">Guardar tarea</button>
+  </form>
+</div>

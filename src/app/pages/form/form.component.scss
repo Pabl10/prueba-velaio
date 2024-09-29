@@ -1,0 +1,29 @@
+.content-form {
+  padding: 16px;
+  border-radius: 12px;
+  border: 1px solid #ccc;
+
+}
+
+.content-peoples {
+  display: grid;
+  gap: 16px;
+  grid-template-columns: auto auto auto;
+  margin: 12px 0;
+}
+
+.box-people {
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  padding: 8px;
+}
+
+.content-info-skill {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 10px;
+}
+
+.content-form-skills, .content-error-names {
+  margin-bottom: 12px;
+}
