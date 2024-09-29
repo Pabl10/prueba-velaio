@@ -13,7 +13,7 @@ import { CommonModule } from '@angular/common';
 import { NzAlertModule } from 'ng-zorro-antd/alert';
 import { NzIconModule } from 'ng-zorro-antd/icon';
 import { NzToolTipModule } from 'ng-zorro-antd/tooltip';
-
+import { NzMessageModule } from 'ng-zorro-antd/message';
 
 
 @NgModule({
@@ -28,7 +28,8 @@ import { NzToolTipModule } from 'ng-zorro-antd/tooltip';
     HttpClientModule,
     NzAlertModule,
     NzIconModule,
-    NzToolTipModule
+    NzToolTipModule,
+    NzMessageModule
   ],
   declarations: [FormComponent],
   exports: [FormComponent]

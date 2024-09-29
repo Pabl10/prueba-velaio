@@ -1,10 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { FormArray, FormControl, FormGroup, NonNullableFormBuilder, Validators } from '@angular/forms';
 import { Store } from '@ngrx/store';
+import { NzMessageService } from 'ng-zorro-antd/message';
 import { DataAdapter } from 'src/app/models/data-adapter.model';
 import { addTask } from 'src/app/store/actions/task.actions';
 import { hasAtLeastOneSkill } from 'src/app/utils/hasAtLeastOneSkill';
 import { uniqueFullNamesValidator } from 'src/app/utils/uniqueFullNamesValidator';
+import * as uuid from 'uuid';
 
 @Component({
   selector: 'app-form',
@@ -26,7 +28,7 @@ export class FormComponent implements OnInit {
     peoples: this.fb.array([this.createPeopleFormGroup()], [uniqueFullNamesValidator()])
   });
 
-  constructor(private fb: NonNullableFormBuilder, private store: Store) { }
+  constructor(private fb: NonNullableFormBuilder, private store: Store, private message: NzMessageService) { }
 
   ngOnInit() { }
 
@@ -93,14 +95,17 @@ export class FormComponent implements OnInit {
     if (this.taskForm.valid) {
       console.log('submit', this.taskForm.value);
       const values = this.taskForm.value as DataAdapter;
+      const uniqueId = uuid.v4();
       const task: DataAdapter = {
         ...values,
-        userId: '',
-        id: '',
-        title: '',
+        userId: uniqueId,
+        id: uniqueId,
+        title: values.name || '',
         completed: false
       }
-      this.store.dispatch(addTask({task}))
+      this.store.dispatch(addTask({task}));
+      this.taskForm.reset();
+      this.message.success('Tarea creada correctamente');
     } else {
       this.markFormGroupTouched(this.taskForm);
     }
